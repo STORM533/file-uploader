@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcel #F-<%= file.id %> — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="ledger">
+      <% if (locals.error) { %>
+      <p class="error-list"><%= error %></p>
+      <% } %>
+
+      <hr class="perforation" />
+      <div class="ticket">
+        <span class="ticket-no">#F-<%= file.id %></span>
+        <div class="ticket-name"><%= file.name %></div>
+        <div class="ticket-meta">
+          <%
+            const bytes = file.size;
+            let human;
+            if (bytes < 1024) human = bytes + " B";
+            else if (bytes < 1024 * 1024) human = (bytes / 1024).toFixed(1) + " KB";
+            else human = (bytes / 1024 / 1024).toFixed(2) + " MB";
+          %>
+          Size: <%= human %> · Type: <%= file.mimeType %> · Checked in <%=
+          file.uploadedAt.toISOString().replace("T", " ").slice(0, 19) %> <% if (file.folder) { %>
+          · Shelf: <%= file.folder.name %> <% } %>
+        </div>
+        <div class="ticket-actions">
+          <a class="btn btn-primary" href="/files/<%= file.id %>/download">Claim ↓</a>
+          <a class="btn btn-brass" href="/files">Back to ledger</a>
+          <% if (file.folderId) { %>
+          <a class="btn btn-brass" href="/folders/<%= file.folderId %>">Shelf</a>
+          <% } %>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

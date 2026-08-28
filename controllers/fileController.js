@@ -68,4 +68,38 @@ const listFiles = async (req, res, next) => {
   }
 };
 
-export { getUploadForm, uploadFile, listFiles };
+const getFileDetails = async (req, res, next) => {
+  try {
+    const file = await prisma.file.findFirst({
+      where: { id: parseInt(req.params.id, 10), userId: req.user.id },
+      include: { folder: true },
+    });
+    if (!file) return res.redirect("/files");
+    res.render("files/detail", { file });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const downloadFile = async (req, res, next) => {
+  try {
+    const file = await prisma.file.findFirst({
+      where: { id: parseInt(req.params.id, 10), userId: req.user.id },
+    });
+    if (!file) return res.redirect("/files");
+    if (file.url) {
+      return res.redirect(file.url);
+    }
+    if (file.localPath) {
+      return res.download(file.localPath, file.name);
+    }
+    return res.status(404).render("files/detail", {
+      file,
+      error: "No parcel stored yet.",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { getUploadForm, uploadFile, listFiles, getFileDetails, downloadFile };

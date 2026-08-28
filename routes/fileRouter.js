@@ -5,6 +5,8 @@ import {
   getUploadForm,
   uploadFile,
   listFiles,
+  getFileDetails,
+  downloadFile,
 } from "../controllers/fileController.js";
 
 const router = Router();
@@ -13,6 +15,8 @@ router.use(isAuthenticated);
 
 router.get("/", listFiles);
 router.get("/upload", getUploadForm);
+router.get("/:id", getFileDetails);
+router.get("/:id/download", downloadFile);
 router.post("/upload", upload.single("file"), (err, req, res, next) => {
   if (err) {
     return res.status(400).render("files/upload", {
