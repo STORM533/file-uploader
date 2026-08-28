@@ -1,0 +1,69 @@
+/* Home / folders / files listing tweaks */
+
+.depot-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+}
+
+.toolbar .btn {
+  font-size: 0.9rem;
+}
+
+.shelf-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.shelf-row .shelf-count {
+  font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--void-600);
+}
+
+/* slide-in animation for new ticket stubs */
+@keyframes ticket-in {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes punch-pop {
+  0% {
+    transform: translateY(-50%) scale(0.6);
+  }
+  60% {
+    transform: translateY(-50%) scale(1.15);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.ticket.new {
+  animation: ticket-in 0.35s ease-out;
+}
+
+.ticket.new::before {
+  animation: punch-pop 0.35s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket.new,
+  .ticket.new::before {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <header class="depot-header">
+      <div class="wordmark">Left-Luggage Depot</div>
+      <div class="status-line">Open a counter account</div>
+    </header>
+
+    <main class="card">
+      <h2>Register</h2>
+
+      <% if (locals.errors && errors.length) { %>
+      <ul class="error-list">
+        <% errors.forEach(function (e) { %>
+        <li><%= e.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form action="/sign-up" method="POST">
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="<%= locals.email || '' %>"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="field">
+          <label for="confirmPassword">Confirm password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+
+      <p class="form-foot">
+        Already have a ticket? <a href="/log-in">Check in here</a>.
+      </p>
+    </main>
+  </body>
+</html>
