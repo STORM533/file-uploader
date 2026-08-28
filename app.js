@@ -35,7 +35,8 @@ app.use(
   }),
 );
 
-app.use(passport.initialize());
+// passport.initialize() is not required in current Passport versions
+// when passport.session() is mounted.
 app.use(passport.session());
 
 app.use((req, res, next) => {
@@ -45,6 +46,9 @@ app.use((req, res, next) => {
 
 const authRouter = (await import("./routes/authRouter.js")).default;
 app.use("/", authRouter);
+
+const folderRouter = (await import("./routes/folderRouter.js")).default;
+app.use("/folders", folderRouter);
 
 app.get("/", (req, res) => {
   res.render("index");

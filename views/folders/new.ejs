@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New shelf — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="card">
+      <h2>New shelf</h2>
+
+      <% if (locals.errors && errors.length) { %>
+      <ul class="error-list">
+        <% errors.forEach(function (e) { %>
+        <li><%= e.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form action="/folders" method="POST">
+        <div class="field">
+          <label for="name">Shelf name</label>
+          <input type="text" id="name" name="name" value="<%= locals.name || '' %>" required />
+        </div>
+        <% if (locals.parentId) { %>
+        <input type="hidden" name="parentId" value="<%= parentId %>" />
+        <% } %>
+        <button type="submit" class="btn btn-primary">Create shelf</button>
+      </form>
+      <p class="form-foot"><a href="/folders">Back to shelves</a></p>
+    </main>
+  </body>
+</html>

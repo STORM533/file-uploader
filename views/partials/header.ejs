@@ -1,0 +1,8 @@
+<header class="depot-header">
+  <div class="wordmark">Left-Luggage Depot</div>
+  <% if (locals.currentUser) { %>
+  <div class="status-line owner">Checked in as: <%= currentUser.email %></div>
+  <% } else { %>
+  <div class="status-line">Not checked in</div>
+  <% } %>
+</header>

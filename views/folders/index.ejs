@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shelves — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="ledger">
+      <div class="toolbar">
+        <a class="btn btn-primary" href="/folders/new">New shelf</a>
+        <a class="btn btn-brass" href="/">Counter</a>
+      </div>
+
+      <hr class="perforation" />
+
+      <% if (locals.folders && folders.length) { %> <% folders.forEach(function (f, i) {
+      %>
+      <div class="ticket <%= i === 0 ? 'new' : '' %>">
+        <span class="ticket-no">#S-<%= f.id %></span>
+        <div class="shelf-row">
+          <span class="ticket-name"><%= f.name %></span>
+          <span class="shelf-count"
+            ><%= f._count.files %> parcels · <%= f._count.children %>
+            sub-shelves</span
+          >
+        </div>
+        <div class="ticket-actions">
+          <a class="btn btn-primary" href="/folders/<%= f.id %>">Open</a>
+          <a class="btn btn-brass" href="/folders/<%= f.id %>/rename">Manage</a>
+        </div>
+      </div>
+      <% if (i < folders.length - 1) { %>
+      <hr class="perforation" />
+      <% } %> <% }); %> <% } else { %>
+      <p class="empty-state">This depot has no shelves yet.</p>
+      <% } %>
+    </main>
+  </body>
+</html>

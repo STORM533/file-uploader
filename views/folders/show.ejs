@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= folder.name %> — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="ledger">
+      <h2 class="depot-title">Shelf: <%= folder.name %></h2>
+
+      <% if (locals.error) { %>
+      <p class="error-list"><%= error %></p>
+      <% } %>
+
+      <div class="toolbar">
+        <a class="btn btn-primary" href="/files/upload?folderId=<%= folder.id %>"
+          >Check in parcel</a
+        >
+        <a class="btn btn-brass" href="/folders/<%= folder.id %>/rename">Manage shelf</a>
+        <form
+          action="/folders/<%= folder.id %>/delete"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit" class="btn btn-brass">Clear shelf</button>
+        </form>
+        <a class="btn btn-brass" href="/folders">All shelves</a>
+      </div>
+
+      <hr class="perforation" />
+
+      <% if (folder.children.length) { %> <% folder.children.forEach(function (child) {
+      %>
+      <div class="ticket">
+        <span class="ticket-no">#S-<%= child.id %></span>
+        <div class="shelf-row">
+          <span class="ticket-name">📂 <%= child.name %></span>
+        </div>
+        <div class="ticket-actions">
+          <a class="btn btn-primary" href="/folders/<%= child.id %>">Open</a>
+        </div>
+      </div>
+      <hr class="perforation" />
+      <% }); %> <% } %> <% if (folder.files.length) { %> <% folder.files.forEach(function
+      (file) { %>
+      <div class="ticket">
+        <span class="ticket-no">#F-<%= file.id %></span>
+        <div class="ticket-name"><%= file.name %></div>
+        <div class="ticket-meta">
+          <%= (file.size / 1024).toFixed(0) %> KB · <%= file.mimeType %> · checked in <%=
+          file.uploadedAt.toISOString().slice(0, 10) %>
+        </div>
+        <div class="ticket-actions">
+          <a class="btn btn-primary" href="/files/<%= file.id %>/download">Claim ↓</a>
+          <a class="btn btn-brass" href="/files/<%= file.id %>">Details</a>
+        </div>
+      </div>
+      <hr class="perforation" />
+      <% }); %> <% } %> <% if (!folder.children.length && !folder.files.length) { %>
+      <p class="empty-state">This shelf is empty.</p>
+      <% } %>
+    </main>
+  </body>
+</html>

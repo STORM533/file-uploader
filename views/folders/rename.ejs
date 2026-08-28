@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rename shelf — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="card">
+      <h2>Manage shelf</h2>
+
+      <% if (locals.errors && errors.length) { %>
+      <ul class="error-list">
+        <% errors.forEach(function (e) { %>
+        <li><%= e.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form action="/folders/<%= folder.id %>/rename" method="POST">
+        <div class="field">
+          <label for="name">Shelf name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= folder.name %>"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+      <p class="form-foot">
+        <a href="/folders/<%= folder.id %>">Back to shelf</a>
+      </p>
+    </main>
+  </body>
+</html>
