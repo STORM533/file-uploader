@@ -50,6 +50,9 @@ app.use("/", authRouter);
 const folderRouter = (await import("./routes/folderRouter.js")).default;
 app.use("/folders", folderRouter);
 
+const fileRouter = (await import("./routes/fileRouter.js")).default;
+app.use("/files", fileRouter);
+
 app.get("/", (req, res) => {
   res.render("index");
 });

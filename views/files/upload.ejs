@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check in parcel — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="card">
+      <h2>Check in a parcel</h2>
+
+      <% if (locals.error) { %>
+      <p class="error-list"><%= error %></p>
+      <% } %>
+
+      <form action="/files/upload" method="POST" enctype="multipart/form-data">
+        <div class="field">
+          <label for="file">Parcel</label>
+          <input type="file" id="file" name="file" required />
+        </div>
+        <div class="field">
+          <label for="folderId">Shelf (optional)</label>
+          <select id="folderId" name="folderId">
+            <option value="">— No shelf (loose parcel) —</option>
+            <% if (locals.folders) { folders.forEach(function (f) { %>
+            <option value="<%= f.id %>" <%= String(f.id) === String(locals.folderId) ? 'selected' : '' %>>
+              <%= f.name %>
+            </option>
+            <% }); } %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Check In</button>
+      </form>
+      <p class="form-foot">
+        Allowed: images, PDFs, common docs. Max <%= process.env.MAX_FILE_SIZE_MB %> MB.
+        <br /><a href="/files">Counter ledger</a>
+      </p>
+    </main>
+  </body>
+</html>

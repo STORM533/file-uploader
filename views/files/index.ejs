@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcels — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="ledger">
+      <div class="toolbar">
+        <a class="btn btn-primary" href="/files/upload">Check in parcel</a>
+        <a class="btn btn-brass" href="/folders">Shelves</a>
+      </div>
+
+      <hr class="perforation" />
+
+      <% if (locals.files && files.length) { %> <% files.forEach(function (file, i) {
+      %>
+      <div class="ticket <%= i === 0 ? 'new' : '' %>">
+        <span class="ticket-no">#F-<%= file.id %></span>
+        <div class="ticket-name"><%= file.name %></div>
+        <div class="ticket-meta">
+          <%= (file.size / 1024).toFixed(0) %> KB · <%= file.mimeType %> · checked in <%=
+          file.uploadedAt.toISOString().slice(0, 10) %> <% if (file.folder) { %> · shelf: <%=
+          file.folder.name %> <% } %>
+        </div>
+        <div class="ticket-actions">
+          <a class="btn btn-primary" href="/files/<%= file.id %>/download">Claim ↓</a>
+          <a class="btn btn-brass" href="/files/<%= file.id %>">Details</a>
+        </div>
+      </div>
+      <% if (i < files.length - 1) { %>
+      <hr class="perforation" />
+      <% } %> <% }); %> <% } else { %>
+      <p class="empty-state">No parcels on the counter yet.</p>
+      <% } %>
+    </main>
+  </body>
+</html>
