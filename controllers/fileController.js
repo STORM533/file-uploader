@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 const getUploadForm = async (req, res, next) => {
   try {
@@ -38,12 +39,23 @@ const uploadFile = async (req, res, next) => {
         });
       }
     }
+
+    // Cloud step (clearly separated): only runs when CLOUDINARY_URL is set.
+    // Local disk copy is always kept during development.
+    let cloudUrl = null;
+    try {
+      cloudUrl = await uploadToCloudinary(req.file.path);
+    } catch (uploadErr) {
+      console.error("Cloudinary upload failed:", uploadErr.message);
+    }
+
     await prisma.file.create({
       data: {
         name: req.file.originalname,
         size: req.file.size,
         mimeType: req.file.mimetype,
         localPath: req.file.path,
+        url: cloudUrl,
         folderId,
         userId: req.user.id,
       },
