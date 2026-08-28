@@ -143,5 +143,5 @@ dist
   .vite/
 
 # Project
-  uploads/
-  generated/
+uploads/
+generated/
