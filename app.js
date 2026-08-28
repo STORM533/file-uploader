@@ -53,6 +53,9 @@ app.use("/folders", folderRouter);
 const fileRouter = (await import("./routes/fileRouter.js")).default;
 app.use("/files", fileRouter);
 
+const shareRouter = (await import("./routes/shareRouter.js")).default;
+app.use("/", shareRouter);
+
 app.get("/", (req, res) => {
   res.render("index");
 });

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shared shelf — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <header class="depot-header">
+      <div class="wordmark">Left-Luggage Depot</div>
+      <div class="status-line">Shared counter — no account required</div>
+    </header>
+
+    <main class="ledger">
+      <% if (locals.notFound) { %>
+      <p class="empty-state">This ticket does not exist at the counter.</p>
+      <% } else if (locals.expired) { %>
+      <div class="ticket stamp-void">
+        <span class="ticket-no">#<%= shareId || 'EXPIRED' %></span>
+        <div class="ticket-name">Shelf: <%= folder.name %></div>
+        <div class="ticket-meta">This claim stub has expired and is no longer valid.</div>
+      </div>
+      <% } else { %>
+      <h2 class="depot-title">Shared shelf: <%= folder.name %></h2>
+      <hr class="perforation" />
+
+      <% if (folder.children.length) { %> <% folder.children.forEach(function (child) { %>
+      <div class="ticket">
+        <span class="ticket-no">#S-<%= child.id %></span>
+        <div class="ticket-name">📂 <%= child.name %></div>
+      </div>
+      <hr class="perforation" />
+      <% }); %> <% } %> <% if (folder.files.length) { %> <% folder.files.forEach(function
+      (file) { %>
+      <div class="ticket">
+        <span class="ticket-no">#F-<%= file.id %></span>
+        <div class="ticket-name"><%= file.name %></div>
+        <div class="ticket-meta">
+          <%= (file.size / 1024).toFixed(0) %> KB · <%= file.mimeType %>
+        </div>
+        <div class="ticket-actions">
+          <% if (file.url) { %>
+          <a class="btn btn-primary" href="<%= file.url %>">Claim parcel ↓</a>
+          <% } else if (file.localPath) { %>
+          <span class="mono" style="color: var(--void-600)"
+            >Parcel held on owner's counter (not retrievable here)</span
+          >
+          <% } %>
+        </div>
+      </div>
+      <hr class="perforation" />
+      <% }); %> <% } %> <% if (!folder.children.length && !folder.files.length) { %>
+      <p class="empty-state">This shelf is empty.</p>
+      <% } %> <% } %>
+    </main>
+  </body>
+</html>

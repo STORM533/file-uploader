@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claim stub — Left-Luggage Depot</title>
+    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <%- include("../partials/header.ejs") %>
+    <main class="ledger">
+      <hr class="perforation" />
+      <div class="ticket">
+        <span class="ticket-no">#CLAIM-STUB</span>
+        <div class="ticket-name">Parcel ticket issued</div>
+        <div class="ticket-meta">
+          Valid for: <%= duration %>. Hand this to anyone — no account needed.
+        </div>
+        <div class="ticket-actions" style="flex-direction: column; align-items: flex-start">
+          <code class="mono" style="word-break: break-all"><%= shareUrl %></code>
+          <a class="btn btn-primary" href="<%= shareUrl %>">Open ticket</a>
+        </div>
+      </div>
+      <p class="form-foot"><a href="/folders">Back to shelves</a></p>
+    </main>
+  </body>
+</html>
