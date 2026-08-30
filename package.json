@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "migrate": "npx prisma migrate dev",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "postinstall": "npx prisma generate",
+    "prestart": "npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
